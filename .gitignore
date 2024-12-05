@@ -3,4 +3,4 @@ __pycache__/
 .env
 temp_pdf_file.pdf
 temp_text_file.txt
-
+config.toml
