@@ -1,5 +1,25 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM
+import google.generativeai as genai
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+model = genai.GenerativeModel("gemini-1.5-flash")
+
+def generate_response_with_gemini(doc_texts, query):
+    context = " ".join(doc_texts)
+    prompt = f"Context: {context}\n\nQuery: {query}"
+
+    try:
+        response = model.generate_content(prompt)
+        generate_response = response.text
+        return generate_response
+    except Exception as e:
+        print(f"Error generating response: {e}")
+        return f"Error generating response: {e}"
+    
 def generate_response(context_docs, query):
     tokenizer = AutoTokenizer.from_pretrained("gpt2")
     model = AutoModelForCausalLM.from_pretrained("gpt2")
