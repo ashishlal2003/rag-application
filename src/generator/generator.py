@@ -1,12 +1,11 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import google.generativeai as genai
-import toml
+from dotenv import load_dotenv
 import os
 
-config = toml.load("config.toml")
-google_api_key = config["api"]["GOOGLE_API_KEY"]
-print(f"Google API Key: {google_api_key}")
-genai.configure(api_key=google_api_key)
+load_dotenv()
+
+genai.configure(api_key=os.getenv("GENAI_API_KEY"))
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 def generate_response_with_gemini(doc_texts, query):
